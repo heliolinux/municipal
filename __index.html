@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="estilos.css">
+    <script src="horarios_instrutor_abre.js"></script>
+    <script src="horarios_instrutor_fecha.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <div> <img src="logo_detran.png" class="detran detran1" id="logoDetran">
+        </div>
+        <h2>ÁREA DO<br>INSTRUTOR</h2>
+        <div> <img src="logo_CNH.gif" class="detran detran2">
+        </div>
+    </header>
+
+    <div class="abertura">
+        <div class="dataHora">
+            <p id="horaLogin"></p>
+            <p id="dataLogin"></p>
+        </div>
+
+        <div class="areaBts">
+            <button id="bt_abre">REGISTRAR<br>INÍCIO<br>DE AULA</button>
+            <div class="areaLoading oculta">
+                <div class="lds-spinner">
+                    Processando Aulas...
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    Este procedimento pode levar até 10 minutos. Aguarde...
+                </div>
+            </div>
+            <button id="bt_fecha">REGISTRAR<br>TÉRMINO<br>DE AULA</button>
+        </div>
+
+    </div>
+
+    <!-- ABAIXO: ao invés de console.log, antes era un window.open('etc...') -->
+    <iframe name="hidden_iframe" style="display:none"></iframe>
+
+    <form id="formulario" action="./formInstrutor" method="post" target="hidden_iframe" onsubmit="gravaAula()">
+        <!-- sobre o target: https://www.w3schools.com/tags/att_form_target.asp  -->
+
+        <div class="nroAula oculta"></div>
+
+        <div class="formulario oculta" id="areaFormulario">
+
+            <div class="areaAluno">
+                <label>AULA NRO:</label> <br>
+                <input type="text" id="nroAula" name='nroAula' required><br><br>
+
+                <label>LADV:</label><br>
+                <input type="text" id="ladvValue" name='ladv' required><br><br>
+
+                <label>CPF DO ALUNO:</label><br>
+                <input type="text" id="cpfValue" name="cpf" required><br><br>
+
+                <label>RG DO ALUNO:</label><br>
+                <input type="text" id="rgValue" name="rg" required><br><br>
+            </div>
+
+            <div class="areaInstrutor">
+                <label>TIPO DE OPERAÇÃO:</label><br>
+                <input type="text" id="tipoAula" name="tipoAula"><br><br>
+
+                <label>NOME DO INSTRUTOR:</label><br>
+                <input type="text" id="instrutor" name="instrutor" required><br><br>
+
+                <label>CATEGORIA:</label><br>
+                <div data-tip="1 para A; 2 para B; 3 para C; 4 para D; 5 para E.">
+                    <input type="text" id="categoria" name="categoria" required><br><br>
+                </div>
+
+                <label>PLACA DO VEÍCULO:</label><br>
+
+
+                <select id="placa" name='placa' required>
+                    <option id="primeiroDaLista" value="0"> Escolha... </option>
+                </select>
+
+                <br><br>
+
+            </div>
+        </div>
+
+        <center><button class="oculta" id="bt" type="submit">ACESSO</button> <br></center>
+        <br><br>
+        <a id="rodape" style="display: none;">BAIXAR BACKUP</a>
+    </form>
+
+    <div class="offline">
+        <center>
+            <img src="offline.png" alt="">
+            <h1>Sistema temporariamente fora de serviço.</h1>
+            <h2>Verifique o procedimento junto à sua autoescola.</h2>
+        </center>
+    </div>
+
+    <footer></footer>
+    
+    <script src="nomesCarros.js"></script>
+    <script src="nomesInstrutores.js"></script>
+    <script src="principal.js"></script>
+</body>
+
+</html>
