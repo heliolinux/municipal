@@ -44,35 +44,49 @@ nroAulaInput.addEventListener('focus', () => {
 
 
 
-// função sobre CPF (<> 11 digitos)
 
+// Função dinâmica para contar os digitos (caracteres) de campos e validar:
+function contaDigitos(id, dig, campo){
+    // console.log(id)
+    let elemento = document.querySelector(`#${id}`)
+    // console.log(elemento)
+    let valor = elemento.value
+    // console.log(valor)
+
+    valor = valor.replace(/[^\d]+/g, '')
+    // se o nro de digitos é menor que o informado na função, dá mensagem de erro:
+    if (valor.length < dig) {
+        elemento.value = ''
+        alert(`${campo} inválido.`)
+        elemento.focus()
+    } else {
+        elemento.value = valor
+    }    
+
+}
+
+
+// função sobre CPF (< 11 digitos)
 const cpfInput = document.querySelector('#cpfValue')
 cpfInput.addEventListener('change', () => {
-    let valor = cpfInput.value
-    valor = valor.replace(/[^\d]+/g, '')
-    if (valor.length != 11) {
-        cpfInput.value = ''
-        alert('CPF inválido.')
-        cpfInput.focus()
-    } else {
-        cpfInput.value = valor
-    }
+        contaDigitos("cpfValue", 11, "CPF")
 })
 
 
 // função para validar campo da LADV (se com menos de X digitos...)
 const ladvInput = document.querySelector('#ladvValue')
 ladvInput.addEventListener('change', () => {
-    let valor = ladvInput.value
-    valor = valor.replace(/[^\d]+/g, '')
-    if (valor.length < 5) {
-        ladvInput.value = ''
-        alert('LADV inválida.')
-        ladvInput.focus()
-    } else {
-        ladvInput.value = valor
-    }
+        contaDigitos("ladvValue", 9, "LADV")
 })
+
+
+// função sobre RG (< 8 digitos)
+const rgValue = document.querySelector('#rgValue')
+rgValue.addEventListener('change', () => {
+        contaDigitos("rgValue", 8, "RG")
+})
+
+
 
 
 // função para validar o nro de aula conforme id gerado pelo sistema do Abel:
@@ -358,12 +372,47 @@ function defineCategoria() {
 
 // mudar conforme nomes de instrutores de arquivo js...:
 function defineInstrutor() {
-    document.querySelector("#instrutor").value = document.querySelector("#instrutor").value.replace(/1/, "Mário")
-    document.querySelector("#instrutor").value = document.querySelector("#instrutor").value.replace(/2/, "Paulo")
-    document.querySelector("#instrutor").value = document.querySelector("#instrutor").value.replace(/3/, "Carlos")
-    // qquer outro numero que não seja os acima, não se aceitará o valor.
-    document.querySelector("#instrutor").value = document.querySelector("#instrutor").value.replace(/4|5|6|7|8|9|0/, "")
-    document.querySelector("#instrutor").blur()
+
+    let inputInstrutor = document.querySelector("#instrutor")
+
+    let nome = inputInstrutor.value
+
+    // let nome = "Anã"
+
+    nomeM = nome.toUpperCase()
+
+    nomeM = nomeM.replace(/ */g,'')
+    .replace('Á','A')
+    .replace('Â','A')
+    .replace('Ã','A')
+    .replace('À','A')
+    .replace('É','E')
+    .replace('Ê','E')
+    .replace('Í','I')
+    .replace('Ó','O')
+    .replace('Ô','O')
+    .replace('Õ','O')
+    .replace('Ú','U')
+
+
+    let compara = nomesInstrutores.includes(nomeM)
+
+    if(!compara){
+        alert('ERRO: Instrutor não está cadastrado no sistema.')
+        document.querySelector("#instrutor").value = ''
+        inputInstrutor.blur()
+    }
+
+        /*
+        // Anteriormente:
+                document.querySelector("#instrutor").value = document.querySelector("#instrutor").value.replace(/1/, "Mário")
+                document.querySelector("#instrutor").value = document.querySelector("#instrutor").value.replace(/2/, "Paulo")
+                document.querySelector("#instrutor").value = document.querySelector("#instrutor").value.replace(/3/, "Carlos")
+                // qquer outro numero que não seja os acima, não se aceitará o valor.
+                document.querySelector("#instrutor").value = document.querySelector("#instrutor").value.replace(/4|5|6|7|8|9|0/, "")
+                document.querySelector("#instrutor").blur()
+        */
+
 }
 
 function apagaCampo(e) {
@@ -391,6 +440,7 @@ function abreEscape(e) {
 document.querySelector("#logoDetran").addEventListener("dblclick", abreEscape)
 document.querySelector("#categoria").addEventListener("focus", apagaCampo)
 document.querySelector("#instrutor").addEventListener("focus", apagaCampo)
+document.querySelector("#instrutor").addEventListener("blur", defineInstrutor)
 // document.querySelector("#instrutor").addEventListener("keyup", defineInstrutor)
 document.querySelector("#categoria").addEventListener("keyup", defineCategoria)
 
